@@ -1,6 +1,9 @@
 # <div align="center">🎨 Open Web Playground</div>
 
 <div align="center">
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+A beginner-friendly, collaborative playground for practicing and learning HTML, CSS, and JavaScript. Perfect for first-time contributors!
 
 ### *Your gateway to web development mastery*
 
@@ -951,3 +954,32 @@ We're here to help you succeed!
 <sub>Last updated: October 2025 • Version 1.0</sub>
 
 </div>
+## 🤝 Contributing
+
+We welcome contributions! Follow these steps to contribute:
+
+1. **Fork the repository**
+2. **Create a new branch** for your feature:
+   ```bash
+   git checkout -b feature-name
+   ```
+3. **Make your changes** and commit them:
+   ```bash
+   git commit -m "Add feature description"
+   ```
+4. **Push to your fork**:
+   ```bash
+   git push origin feature-name
+   ```
+5. **Open a Pull Request** and describe your changes.
+
+### Testing Guidelines
+
+- Write tests for new features and bug fixes
+- Ensure all tests pass before submitting a PR
+- Include both positive and negative test cases
+- Follow the existing test structure in `tests/` directory
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
