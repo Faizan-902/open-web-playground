@@ -1,19 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- 
+    *-------------------------------------------------------------
+    | In this example, we will show you how to perform input 
+    | validation on user requests so they know what is valid to
+    | input and what is not. Using what we learned in our previous
+    | example with updating text based on user input, we will expand
+    | into updating based on different kinds of input than just
+    | clicking a button.
+    *-------------------------------------------------------------
+    -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Form Validation Example</title>
     <style>
-        /* Basic page styling */
+        /* 
+        *-------------------------------------------------------------
+        | As always, lets get started with some CSS. We will apply some
+        | basic styling to the page, and then apply some styles to input
+        | tags based on what kind of state they are in - success or error.
+        *-------------------------------------------------------------
+         */
         body {
+            --success-color: #4CAF50;
+            --error-color: #F44336;
+            --common-blue: #667eea;
+
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--common-blue) 0%, #764ba2 100%);
         }
         
         /* Form container styling */
@@ -58,22 +78,22 @@
         /* Input focus state */
         input:focus, select:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: var(--common-blue);
         }
         
         /* Error state for invalid inputs */
         input.error, select.error {
-            border-color: #f44336;
+            border-color: var(--error-color);
         }
         
         /* Success state for valid inputs */
         input.success, select.success {
-            border-color: #4CAF50;
+            border-color: var(--success-color);
         }
         
         /* Error message styling */
         .error-message {
-            color: #f44336;
+            color: var(--error-color);
             font-size: 12px;
             margin-top: 5px;
             display: none;
@@ -83,7 +103,7 @@
             display: block;
         }
         
-        /* Submit button styling */
+        /* Apply styling to button with `type="submit"` attribute */
         button[type="submit"] {
             width: 100%;
             padding: 12px;
@@ -97,13 +117,14 @@
             transition: background 0.3s;
         }
         
+        /* Apply styling to button with `type="submit"` attribute when hovered */
         button[type="submit"]:hover {
             background: #5568d3;
         }
         
         /* Success message after submission */
         .success-message {
-            background: #4CAF50;
+            background: var(--success-color);
             color: white;
             padding: 15px;
             border-radius: 5px;
@@ -118,10 +139,21 @@
     </style>
 </head>
 <body>
+    <!-- 
+    *-------------------------------------------------------------
+    | After the CSS, let's add the HTML using the `form` tag and input
+    | elements. We will also add some meaningful IDs to use to
+    | access the elements later in the JavaScript.
+    *-------------------------------------------------------------
+    -->
     <div class="form-container">
         <h1>Registration Form</h1>
         
         <!-- Registration form -->
+        <!-- 
+            The `novalidate` attribute for the form tells the browser not
+            to run its default validation on submission.
+        -->
         <form id="registrationForm" novalidate>
             <!-- Username field -->
             <div class="form-group">
@@ -169,56 +201,35 @@
     </div>
 
     <script>
-        // Get form and input elements
-        const form = document.getElementById('registrationForm');
-        const username = document.getElementById('username');
-        const email = document.getElementById('email');
-        const password = document.getElementById('password');
-        const confirmPassword = document.getElementById('confirmPassword');
-        const age = document.getElementById('age');
-        const successMessage = document.getElementById('successMessage');
+        /*
+        *-------------------------------------------------------------
+        | Finally, let's add the JavaScript code. Let's start by 
+        | accessing the form and input elements with querySelector, so
+        | we can access them and modify them later.
+        *-------------------------------------------------------------
+        */
+        const form = document.querySelector('#registrationForm');
+        const username = document.querySelector('#username');
+        const email = document.querySelector('#email');
+        const password = document.querySelector('#password');
+        const confirmPassword = document.querySelector('#confirmPassword');
+        const age = document.querySelector('#age');
+        const successMessage = document.querySelector('#successMessage');
         
-        // Add event listener for form submission
-        form.addEventListener('submit', function(e) {
-            e.preventDefault(); // Prevent default form submission
-            
-            // Validate all fields
-            const isUsernameValid = validateUsername();
-            const isEmailValid = validateEmail();
-            const isPasswordValid = validatePassword();
-            const isConfirmPasswordValid = validateConfirmPassword();
-            const isAgeValid = validateAge();
-            
-            // If all fields are valid, show success message
-            if (isUsernameValid && isEmailValid && isPasswordValid && isConfirmPasswordValid && isAgeValid) {
-                successMessage.classList.add('show');
-                setTimeout(() => {
-                    successMessage.classList.remove('show');
-                    form.reset(); // Reset form after showing success
-                    clearValidationStates();
-                }, 3000);
-            }
-        });
-        
-        // Real-time validation on input
-        username.addEventListener('blur', validateUsername);
-        email.addEventListener('blur', validateEmail);
-        password.addEventListener('blur', validatePassword);
-        confirmPassword.addEventListener('blur', validateConfirmPassword);
-        age.addEventListener('blur', validateAge);
-        
-        // Validation function for username
+        // Now, we will set up our validation function for the 
+        // different fields. 
+
         function validateUsername() {
+            // Use trim() to remove any unnecessary whitespace
             const usernameValue = username.value.trim();
+
+            // Get the reference to the usernameError element under the
+            // username field.
             const usernameError = document.getElementById('usernameError');
             
-            if (usernameValue.length < 3) {
-                setError(username, usernameError);
-                return false;
-            } else {
-                setSuccess(username, usernameError);
-                return true;
-            }
+            const criteria = usernameValue.length < 3;
+
+            return validateValue(criteria, username, usernameError);
         }
         
         // Validation function for email using regex
@@ -227,13 +238,9 @@
             const emailError = document.getElementById('emailError');
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             
-            if (!emailRegex.test(emailValue)) {
-                setError(email, emailError);
-                return false;
-            } else {
-                setSuccess(email, emailError);
-                return true;
-            }
+            const criteria = emailRegex.test(emailValue) === false;
+
+            return validateValue(criteria, email, emailError);
         }
         
         // Validation function for password
@@ -241,13 +248,9 @@
             const passwordValue = password.value.trim();
             const passwordError = document.getElementById('passwordError');
             
-            if (passwordValue.length < 6) {
-                setError(password, passwordError);
-                return false;
-            } else {
-                setSuccess(password, passwordError);
-                return true;
-            }
+            const criteria = passwordValue.length < 6;
+
+            return validateValue(criteria, password, passwordError)
         }
         
         // Validation function for confirm password
@@ -255,30 +258,39 @@
             const confirmPasswordValue = confirmPassword.value.trim();
             const passwordValue = password.value.trim();
             const confirmPasswordError = document.getElementById('confirmPasswordError');
+
+            const criteria = confirmPasswordValue !== passwordValue || confirmPasswordValue === ''
             
-            if (confirmPasswordValue !== passwordValue || confirmPasswordValue === '') {
-                setError(confirmPassword, confirmPasswordError);
-                return false;
-            } else {
-                setSuccess(confirmPassword, confirmPasswordError);
-                return true;
-            }
+            return validateValue(criteria, confirmPassword, confirmPasswordError);
         }
         
         // Validation function for age
         function validateAge() {
             const ageValue = parseInt(age.value);
             const ageError = document.getElementById('ageError');
+
+            const criteria = isNan(ageValue) || ageValue < 18 || ageValue > 120;
             
-            if (isNaN(ageValue) || ageValue < 18 || ageValue > 120) {
-                setError(age, ageError);
+            return validateValue(criteria, age, ageError);
+        }
+
+        // After that, we will add some helper functions for validating the values
+        // by criteria given and then displaying the respective success or error
+        // fields. We will also create one that validates every field and allows
+        // the user to submit the form.
+
+        // Helper function to validate a value by criteria and update the field
+        // error or success elements.
+        function validateValue(criteriaFails, input, errorElement) {
+            if (criteriaFails === true) {
+                setError(input, errorElement);
                 return false;
             } else {
-                setSuccess(age, ageError);
+                setSuccess(input, errorElement);
                 return true;
             }
         }
-        
+
         // Helper function to set error state
         function setError(input, errorElement) {
             input.classList.add('error');
@@ -292,6 +304,46 @@
             input.classList.add('success');
             errorElement.classList.remove('show');
         }
+
+        // Helper function to validate every field
+        function validateAllValues() {
+            const isUsernameValid = validateUsername();
+            const isEmailValid = validateEmail();
+            const isPasswordValid = validatePassword();
+            const isConfirmPasswordValid = validateConfirmPassword();
+            const isAgeValid = validateAge();
+
+            return isUsernameValid && isEmailValid && isPasswordValid && isConfirmPasswordValid && isAgeValid;
+        }
+        
+        // Next, we will add an event listener for form submission.
+        // This code will run every time the submit button is pressed.
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent default form submission which reloads the page.
+            
+            // If all fields are valid, show success message
+            if (validateAllValues() === true) {
+                successMessage.classList.add('show');
+                setTimeout(() => {
+                    successMessage.classList.remove('show');
+                    form.reset(); // Reset form after showing success
+                    clearValidationStates();
+                }, 3000);
+            }
+        });
+        
+        // After that, we will add some real-time validation on input
+        // with the 'blur' event, which fires after an element is not
+        // focused by the cursor.
+        username.addEventListener('blur', validateUsername);
+        email.addEventListener('blur', validateEmail);
+        password.addEventListener('blur', validatePassword);
+        confirmPassword.addEventListener('blur', validateConfirmPassword);
+        age.addEventListener('blur', validateAge);
+        
+        // And lastly, we will add a function that clears all the validation states
+        // of every field, removing any success or error classes and hides all error
+        // text fields.
         
         // Clear all validation states
         function clearValidationStates() {
@@ -304,6 +356,14 @@
                 error.classList.remove('show');
             });
         }
+    
+        /*
+        *-------------------------------------------------------------
+        | And there you go! Now you know how to validate user input 
+        | using only vanilla JavaScript, HTML, and CSS! Next, we will
+        | move on to using JavaScript to create a responsive nav bar.
+        *-------------------------------------------------------------
+        */
     </script>
 </body>
 </html>
