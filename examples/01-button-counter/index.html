@@ -1,19 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- 
+    *-------------------------------------------------------------
+    | This example teaches you how to set up a counter with a button. 
+    | We will use the document.querySelector() API to get the reference
+    | to the counter element, and then add functions that run on events in
+    | the HTML to update the counter text, and even apply style changes 
+    | when the count reaches certain threshholds.
+    *-------------------------------------------------------------
+    -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Button Click Counter</title>
     <style>
+        /* 
+        *-------------------------------------------------------------
+        | To start, we will create some basic styling.
+        *-------------------------------------------------------------
+         */
         /* Basic styling for the counter */
         body {
+            /* 
+            *-------------------------------------------------------------
+            | Below are CSS variables. These are useful to avoid repeating
+            | lines of code later. You will see them used in multiple 
+            | places. Full knowledge on these is not important to get
+            | started, but the value can be used later by using 
+            | var(--variable-name) anywhere you want to use it.
+            *-------------------------------------------------------------
+             */
+            --increment-color: #4CAF50;
+            --decrement-color: #F44336;
+            --common-blue: #667eea;
+
             font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--example-blue) 0%, #764ba2 100%);
         }
         
         /* Container for the counter */
@@ -29,11 +56,11 @@
         .counter-display {
             font-size: 48px;
             font-weight: bold;
-            color: #667eea;
+            color: var(--example-blue);
             margin: 20px 0;
         }
         
-        /* Button styling */
+        /* Button default styling */
         button {
             font-size: 16px;
             padding: 12px 24px;
@@ -46,13 +73,13 @@
         
         /* Increment button */
         .btn-increment {
-            background: #4CAF50;
+            background: var(--increment-color);
             color: white;
         }
         
         /* Decrement button */
         .btn-decrement {
-            background: #f44336;
+            background: var(--decrement-color);
             color: white;
         }
         
@@ -62,19 +89,29 @@
             color: white;
         }
         
-        /* Button hover effect */
+        /* Apply a hover effect to all buttons */
         button:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
         
-        /* Button active effect */
+        /* Apply an effect when button is actively being clicked */
         button:active {
             transform: translateY(0);
         }
     </style>
 </head>
 <body>
+    <!-- 
+        *-------------------------------------------------------------
+        | Next, we will start with the HTML. We add the id "counter"
+        | to the element we want to update so that we can easily access
+        | it later in the JavaScript and update its text. After that,
+        | we add a few buttons that reflect what we want to be able to
+        | do to the counter: Increment (add), Decrement (subtract), and
+        | Reset (set to 0).                
+        *-------------------------------------------------------------
+    -->
     <div class="counter-container">
         <h1>Click Counter</h1>
         <!-- Display element for the counter value -->
@@ -87,42 +124,69 @@
     </div>
 
     <script>
-        // Initialize counter variable
+        /*
+        *-------------------------------------------------------------
+        | Finally, this is the script that helps us modify the counter 
+        | and update it dynamically. We have a count variable below that 
+        | keeps track of the count number, and a few helper functions 
+        | to update the count and change the display.
+        *-------------------------------------------------------------
+        */
+
+        // Initialize counter variable that can be accessed later by helper functions.
         let count = 0;
         
-        // Get reference to the counter display element
-        const counterDisplay = document.getElementById('counter');
+        // Get reference to the counter display element. Use the "#" before the
+        // element's ID in order to specify our counter element from the HTML.
+        const counterDisplay = document.querySelector('#counter');
         
-        // Function to increment the counter
+        // Now create a function to increment 
+        // (add to) the counter by 1.
         function increment() {
             count++;
             updateDisplay();
         }
         
-        // Function to decrement the counter
+        // Next, create a function to decrement 
+        // (subtract from) the counter by 1.
         function decrement() {
             count--;
             updateDisplay();
         }
         
-        // Function to reset the counter to zero
+        // After that, create a function to 
+        // reset the counter to zero
         function reset() {
             count = 0;
             updateDisplay();
         }
         
-        // Function to update the display with current count
+        // Finally, create a function to update the display with current count
         function updateDisplay() {
+            // textContent gets the text that is displayed by the element, in this
+            // case, our counter display.
             counterDisplay.textContent = count;
-            // Add visual feedback with color change
+
+
+            // Next, add visual feedback with color change. We will use the
+            // CSS variables set up earlier to make this easier.
             if (count > 0) {
-                counterDisplay.style.color = '#4CAF50';
+                counterDisplay.style.color = 'var(--increment-color)';
             } else if (count < 0) {
-                counterDisplay.style.color = '#f44336';
+                counterDisplay.style.color = 'var(--decrement-color)';
             } else {
-                counterDisplay.style.color = '#667eea';
+                counterDisplay.style.color = 'var(--example-blue)';
             }
         }
+    /*
+        *-------------------------------------------------------------
+        | And there you go! Now you know how to handle manually updating 
+        | text and content on a web page without using a framework! All
+        | we used was vanilla JavaScript, HTML, and CSS. The process is 
+        | similar for any other text or visual updates for a web page
+        | based on user input. Next, let's move on to Form Validation.
+        *-------------------------------------------------------------
+    */
     </script>
 </body>
 </html>
