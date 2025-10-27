@@ -1,10 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- 
+    *-------------------------------------------------------------
+    | In this example, we will create an interactive image gallery
+    | using HTML, CSS, and JavaScript. The gallery will have images
+    | that display in a row, and the user can select an image to view.
+    | If the user clicks on an image, it will pop up in a modal 
+    | with the caption. We will create this using event listeners
+    | and using JavaScript to render elements on the page.
+    *-------------------------------------------------------------
+    -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Gallery</title>
     <style>
+        /*
+        *-------------------------------------------------------------
+        | To start, add some styling. We will create the styles to display
+        | the images in the gallery, along with its captions. Finally, we 
+        | will also add some styles for the modal (hidden by default) and
+        | the gallery navigation buttons.
+        *-------------------------------------------------------------
+        */
+
         /* Reset default styles */
         * {
             margin: 0;
@@ -162,6 +181,14 @@
     </style>
 </head>
 <body>
+    <!-- 
+    *-------------------------------------------------------------
+    | Next, let's add some HTML. The gallery items will not be 
+    | created here, but dynamically using JavaScript in the next 
+    | section, so even though it looks bare, there will be more 
+    | added later programmatically.
+    *-------------------------------------------------------------
+     -->
     <div class="container">
         <h1>Image Gallery</h1>
         
@@ -190,7 +217,17 @@
     </div>
 
     <script>
-        // Array of image data (using placeholder images from picsum.photos)
+        /*
+        *-------------------------------------------------------------
+        | Finally, let's add the JavaScript. To begin, we will create
+        | an array of placeholder images to use in the gallery. After,
+        | we will create a function to render all the images in the 
+        | gallery, and lastly, we will add functionality to the images
+        | and modal with event listeners.
+        *-------------------------------------------------------------
+        */
+
+        // First, create an array of image data (using placeholder images from picsum.photos)
         const images = [
             {
                 src: 'https://picsum.photos/400/300?random=1',
@@ -218,19 +255,21 @@
             }
         ];
         
-        // Get DOM elements
-        const gallery = document.getElementById('gallery');
-        const modal = document.getElementById('modal');
-        const modalImage = document.getElementById('modalImage');
-        const modalCaption = document.getElementById('modalCaption');
-        const closeModal = document.getElementById('closeModal');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
+        // Next, get all the DOM elements
+        const gallery = document.querySelector('#gallery');
+        const modal = document.querySelector('#modal');
+        const modalImage = document.querySelector('#modalImage');
+        const modalCaption = document.querySelector('#modalCaption');
+        const closeModal = document.querySelector('#closeModal');
+        const prevBtn = document.querySelector('#prevBtn');
+        const nextBtn = document.querySelector('#nextBtn');
         
-        // Current image index
+        // Initialize the current image index (starting at zero)
         let currentIndex = 0;
         
-        // Generate gallery items dynamically
+        // Function to generate gallery items dynamically.
+        // We will call this function at the end of the script
+        // so it creates the gallery when the page is ready to load.
         function createGallery() {
             images.forEach((image, index) => {
                 // Create gallery item container
@@ -257,16 +296,25 @@
             });
         }
         
-        // Open modal with selected image
+        // Next, we will create a function to open the modal with
+        // the selected image by its index
         function openModal(index) {
             currentIndex = index;
-            modal.classList.add('active');
+            toggleModal();
             updateModalImage();
         }
-        
-        // Close modal
-        function closeModalFunc() {
-            modal.classList.remove('active');
+
+        // After that, we will make some helper functions to
+        // update the modal's active state and image, and to
+        // show the previous or next image in the modal.
+
+        // Handle opening and closing modal
+        function toggleModal(open = true) {
+            if (open === true) {
+                modal.classList.add('active');
+            } else {
+                modal.classList.remove('active');
+            }
         }
         
         // Update modal image and caption
@@ -277,6 +325,12 @@
         
         // Show previous image
         function showPrevImage() {
+            // the % (modulo) operator performs whole number division and
+            // returns the remainder. If it divides evenly, it returns zero.
+            // For example, 10 % 3 will return 1.
+            // In the code below, we use the modul operator to ensure our
+            // user cannot set the current index to anything beyond the range
+            // of the list of images.
             currentIndex = (currentIndex - 1 + images.length) % images.length;
             updateModalImage();
         }
@@ -286,16 +340,18 @@
             currentIndex = (currentIndex + 1) % images.length;
             updateModalImage();
         }
+
+        // And finally, let's add our event listeners to the different elements.
         
-        // Event listeners
-        closeModal.addEventListener('click', closeModalFunc);
+        // Inside modal event listeners
+        closeModal.addEventListener('click', () => toggleModal(false));
         prevBtn.addEventListener('click', showPrevImage);
         nextBtn.addEventListener('click', showNextImage);
         
         // Close modal when clicking outside the image
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
-                closeModalFunc();
+                toggleModal(false);
             }
         });
         
@@ -308,12 +364,20 @@
             } else if (e.key === 'ArrowRight') {
                 showNextImage();
             } else if (e.key === 'Escape') {
-                closeModalFunc();
+                toggleModal(false);
             }
         });
         
         // Initialize gallery on page load
         createGallery();
+
+        /*
+        *-------------------------------------------------------------
+        | And that's it! Now you have created an interactive image
+        | gallery that creates elements using HTML, CSS, and JavaScript
+        | instead of hard coding its images.
+        *-------------------------------------------------------------
+        */
     </script>
 </body>
 </html>
