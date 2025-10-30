@@ -1,10 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- 
+    *-------------------------------------------------------------
+    | In this example, we will learn how to create a responsive
+    | navigation menu with just vanilla JavaScript, HTML, and CSS. 
+    | Responsive, for those who do not know, means that the website
+    | responds to the user's device width and is accessible for all
+    | types of devices.
+    | We will get the reference of certain elements in our HTML
+    | using JavaScript and apply different styles depending on
+    | screen widths.
+    *-------------------------------------------------------------
+    -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Responsive Navigation Menu</title>
     <style>
+        /*
+        *-------------------------------------------------------------
+        | To start, begin with some CSS styles. We start by applying some 
+        | styles that reset default browser ones, as well as our basic
+        | styling to elements. Once we have our base styles established,
+        | we add some media queries, which define the screen width, or
+        | "breakpoint" at which to apply certain styles.
+        *-------------------------------------------------------------
+        */
+
         /* Reset default browser styles */
         * {
             margin: 0;
@@ -101,6 +123,17 @@
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
+
+        /*
+        *-------------------------------------------------------------
+        | Below is the media queries that apply our styles depending on
+        | the user's screen width. The below media query could be translated
+        | to: "Once the user's screen width is at 768 pixels or less, apply 
+        | the following styles". The hamburger menu becomes visible, the 
+        | navigation menu gets hidden by default, and different elements
+        | have their size and other attributes changed.
+        *-------------------------------------------------------------
+        */
         
         /* Responsive styles for tablets and mobile */
         @media (max-width: 768px) {
@@ -146,6 +179,13 @@
 <body>
     <!-- Navigation bar -->
     <nav>
+        <!-- 
+        *-------------------------------------------------------------
+        | Now we add the HTML. We set up the container, nav menu, the
+        | different navigation locations, the hamburger icon, and the
+        | page content.
+        *-------------------------------------------------------------
+        -->
         <div class="nav-container">
             <!-- Logo/Brand name -->
             <a href="#" class="logo">MyWebsite</a>
@@ -177,39 +217,74 @@
     </div>
 
     <script>
-        // Get references to the hamburger button and navigation menu
-        const hamburger = document.getElementById('hamburger');
-        const navMenu = document.getElementById('navMenu');
-        
-        // Add click event listener to hamburger button
-        hamburger.addEventListener('click', function() {
+        /*
+        *-------------------------------------------------------------
+        | Finally, let's add some JavaScript to our page to make it
+        | reactive to users. Start by getting the reference to the
+        | hamburger button and nav menu, and we will apply some
+        | event listeners to them. After that, we will handle the case
+        | where the user might want to close the nav menu by clicking
+        | outside the nav menu.
+        *-------------------------------------------------------------
+        */
+
+        // Start by  getting references to the hamburger button and navigation menu
+        const hamburger = document.querySelector('#hamburger');
+        const navMenu = document.querySelector('#navMenu');
+
+        // Next, let's create the functions that handle what happens when the user clicks
+        // on the hamburger and the nav menu items, and (optionally) when the user clicks
+        // outside the nav menu.
+
+        // Function to toggle hamburger as active and nav menu display
+        function toggleNavElementsActive() {
             // Toggle 'active' class on both hamburger and nav menu
             // This triggers the CSS animations and visibility changes
             hamburger.classList.toggle('active');
             navMenu.classList.toggle('active');
-        });
-        
-        // Close menu when a navigation link is clicked (mobile)
-        const navLinks = document.querySelectorAll('.nav-menu li a');
-        navLinks.forEach(link => {
-            link.addEventListener('click', function() {
+        }
+
+        // Function to set hamburger inactive and hide nav menu.
+        function setNavElementsInactive() {
                 // Remove 'active' class to close the menu
                 hamburger.classList.remove('active');
                 navMenu.classList.remove('active');
-            });
-        });
+        }
         
-        // Optional: Close menu when clicking outside of it
-        document.addEventListener('click', function(event) {
+        // Optional: function to close nav menu and reset hamburger
+        // if user clicks outside nav
+        function handleClickOutsideNavMenu(event) {
             const isClickInsideNav = navMenu.contains(event.target);
             const isClickOnHamburger = hamburger.contains(event.target);
             
             // If click is outside nav and hamburger, and menu is open, close it
             if (!isClickInsideNav && !isClickOnHamburger && navMenu.classList.contains('active')) {
-                hamburger.classList.remove('active');
-                navMenu.classList.remove('active');
+                setNavElementsInactive();
             }
+        }
+
+        // Finally, let's add these functions as event handlers to the respective
+        // elements.
+
+        // Add click event listener to hamburger button
+        hamburger.addEventListener('click', toggleNavElementsActive);
+        
+        // Close menu when a navigation link is clicked (mobile)
+        const navLinks = document.querySelectorAll('.nav-menu li a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', setNavElementsInactive);
         });
+        
+        // Optional: Close menu when clicking outside of it
+        document.addEventListener('click', handleClickOutsideNavMenu);
+
+        /*
+        *-------------------------------------------------------------
+        | And that's it! Now you can create a responsive navigation
+        | menu with vanilla HTML, CSS, and JavaScript. Next, let's 
+        | learn how to create an image gallery!                
+        *-------------------------------------------------------------
+        */
     </script>
 </body>
 </html>
