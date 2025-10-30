@@ -8,6 +8,7 @@
     <!-- Contributors: Link your CSS stylesheets here -->
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <header>
         <nav class="navbar" role="navigation" aria-label="Main Navigation">
@@ -16,16 +17,7 @@
                     <h1>Open Web Playground</h1>
                 </div>
                 
-                <!-- Theme Switcher Button -->
-                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode and light mode">
-                    <svg class="sun-icon" width="20" height="20" viewBox="0 0 20 20" fill="currentColor" role="img" aria-label="Sun icon for light mode">
-                        <circle cx="10" cy="10" r="5"/>
-                        <path d="M10 0v3M10 17v3M0 10h3M17 10h3M2.93 2.93l2.12 2.12M14.95 14.95l2.12 2.12M2.93 17.07l2.12-2.12M14.95 5.05l2.12-2.12"/>
-                    </svg>
-                    <svg class="moon-icon" width="20" height="20" viewBox="0 0 20 20" fill="currentColor" role="img" aria-label="Moon icon for dark mode">
-                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
-                    </svg>
-                </button>
+                
                 
                 <!-- Hamburger Menu Button -->
                 <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu">
@@ -36,11 +28,25 @@
                 
                 <!-- Navigation Menu -->
                 <ul class="nav-menu" id="nav-menu" role="menubar">
-                    <li role="none"><a href="#about" role="menuitem" tabindex="0">About</a></li>
-                    <li role="none"><a href="#features" role="menuitem" tabindex="0">Features</a></li>
-                    <li role="none"><a href="#demo" role="menuitem" tabindex="0">Demo</a></li>
-                    <li role="none"><a href="#contribute" role="menuitem" tabindex="0">Contribute</a></li>
-                </ul>
+  <li role="none"><a href="#about" role="menuitem" tabindex="0">About</a></li>
+  <li role="none"><a href="#features" role="menuitem" tabindex="0">Features</a></li>
+  <li role="none"><a href="#demo" role="menuitem" tabindex="0">Demo</a></li>
+  <li role="none"><a href="#contribute" role="menuitem" tabindex="0">Contribute</a></li>
+
+  <!-- Dark/Light Mode Toggle placed after Contribute -->
+  <li role="none">
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode and light mode">
+      <svg class="sun-icon" width="20" height="20" viewBox="0 0 20 20" fill="currentColor" role="img" aria-label="Sun icon for light mode">
+        <circle cx="10" cy="10" r="5"/>
+        <path d="M10 0v3M10 17v3M0 10h3M17 10h3M2.93 2.93l2.12 2.12M14.95 14.95l2.12 2.12M2.93 17.07l2.12-2.12M14.95 5.05l2.12-2.12"/>
+      </svg>
+      <svg class="moon-icon" width="20" height="20" viewBox="0 0 20 20" fill="currentColor" role="img" aria-label="Moon icon for dark mode">
+        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
+      </svg>
+    </button>
+  </li>
+</ul>
+
             </div>
         </nav>
     </header>
